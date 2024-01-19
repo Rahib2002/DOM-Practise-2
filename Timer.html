@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Counter App</title>
+</head>
+<body>
+
+  <h1 id="counterDisplay">0</h1>
+  <button id="toggleButton">Start</button>
+  <button id="incrementButton">Increment</button>
+  <button id="decrementButton">Decrement</button>
+
+  <script>
+    class Counter {
+      constructor() {
+        this.count = 0;
+        this.intervalId = null;
+        this.manualMode = false;
+
+        this.counterDisplay = document.getElementById('counterDisplay');
+        this.toggleButton = document.getElementById('toggleButton');
+        this.incrementButton = document.getElementById('incrementButton');
+        this.decrementButton = document.getElementById('decrementButton');
+
+        this.toggleButton.addEventListener('click', this.toggle.bind(this));
+        this.incrementButton.addEventListener('click', this.increment.bind(this));
+        this.decrementButton.addEventListener('click', this.decrement.bind(this));
+      }
+
+      toggle() {
+        if (this.manualMode) {
+          this.manualMode = false;
+          this.startAutomaticCounter();
+        } else {
+          this.manualMode = true;
+          this.stopAutomaticCounter();
+        }
+      }
+
+      startAutomaticCounter() {
+        this.intervalId = setInterval(() => {
+          this.count++;
+          this.updateDisplay();
+        }, 1000);
+
+        this.toggleButton.textContent = 'Stop';
+      }
+
+      stopAutomaticCounter() {
+        clearInterval(this.intervalId);
+        this.toggleButton.textContent = 'Start';
+      }
+
+      increment() {
+        if (this.manualMode) {
+          this.count++;
+          this.updateDisplay();
+        }
+      }
+
+      decrement() {
+        if (this.manualMode) {
+          this.count--;
+          this.updateDisplay();
+        }
+      }
+
+      updateDisplay() {
+        this.counterDisplay.textContent = this.count;
+      }
+    }
+
+    const counter = new Counter();
+  </script>
+
+</body>
+</html>
